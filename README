@@ -8,7 +8,21 @@ https://www.colo.in.th/knowledgebase/70/-Zabbix--LINE-Notify.html
 
 websenario 
 
-https://www.zabbix.com/documentation/2.2/manual/web_monitoring/items
+https://www.zabbix.com/documentation/3.4/manual/web_monitoring/items
+
+
+Add Host
+
+Configuration >> Template >> Clone template >> 
+
+goto Web scenarios >> create
+
+
+To create a “Web scenario failed” trigger, you can define a trigger expression:
+
+{host:web.test.fail[Scenario].last()}<>0
+Make sure to replace 'Scenario' with the real name of your scenario.
+
 
 
 
@@ -17,7 +31,7 @@ create websenario : URL check
 Trigger 
 
 Name : URL check failed {HOST.NAME}
-Expression : {Template NDP WebMonitoring:web.test.error[URL check].strlen()}>0
+Expression : {Template WebMonitoring:web.test.fail[URL check].last()}<>0
 
 
 
