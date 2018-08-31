@@ -1,0 +1,48 @@
+add line noti step 
+
+1. Administration >> Media types 
+
+Name : line 
+Type : Script
+
+script name : line_notify.sh
+
+script parameter 
+
+{ALERT.SENDTO}
+{ALERT.SUBJECT}
+{ALERT.MESSAGE}
+
+
+2. Add user
+
+Name : line user
+Media 
+Type : line
+Send to : token line
+
+Permissions : Zabbix Super Admin
+
+
+3. Configuration  >> action >> create Action 
+
+Name : Linr noti 
+
+New condition : 
+
+Template : Template Linux Plus >> Add >> 
+
+Operation >> New 
+
+Send to Users >> line user
+
+Send only to : line 
+
+
+Recovery operations >> 
+
+
+
+
+
+
