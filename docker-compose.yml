@@ -1,0 +1,43 @@
+version: '2'
+services:
+  zabbix-db:
+    image: monitoringartist/zabbix-db-mariadb
+    restart: always
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./backups:/backups
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - MARIADB_USER=zabbix
+      - MARIADB_PASS=password
+  zabbix-xxl:
+    image: monitoringartist/dockbix-xxl
+    restart: always
+    depends_on:
+      - zabbix-db
+    ports:
+      - "80:80"      
+      - "10051:10051"                              
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /zabbix/script:/usr/local/share/zabbix/alertscripts
+    links:
+      - zabbix-db:zabbix.db
+    environment:
+      - ZS_DBHost=zabbix.db
+      - ZS_DBUser=zabbix
+      - ZS_DBPassword=password
+      - XXL_zapix=true
+      - XXL_grapher=true
+      - ZS_StartJavaPollers=5
+      - ZS_JavaGateway=10.117.28.7
+      - ZS_JavaGatewayPort=10052
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=Asia/Bangkok
+      - TZ=ICT-7
+
+  zabbix-javaGateway:
+    image: zabbix/zabbix-java-gateway
+    restart: always
+    ports:
+     - "10052:10052"
